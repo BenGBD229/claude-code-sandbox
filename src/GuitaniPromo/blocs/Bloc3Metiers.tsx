@@ -4,11 +4,63 @@ import { MaskSlideText } from "../components/MaskSlideText";
 import { Sfx } from "../components/Sfx";
 import { EASE_IN_OUT, fontFamily, LINEAR } from "../tokens";
 
+const IconHeadset: React.FC<{ color: string }> = ({ color }) => (
+  <svg width={56} height={56} viewBox="0 0 24 24" fill="none">
+    <path
+      d="M4 13v-1a8 8 0 0 1 16 0v1"
+      stroke={color}
+      strokeWidth={2}
+      strokeLinecap="round"
+    />
+    <rect x={3} y={13} width={4} height={6} rx={2} fill={color} />
+    <rect x={17} y={13} width={4} height={6} rx={2} fill={color} />
+    <path
+      d="M19 19v1a2 2 0 0 1-2 2h-3"
+      stroke={color}
+      strokeWidth={2}
+      strokeLinecap="round"
+    />
+  </svg>
+);
+
+const IconPhone: React.FC<{ color: string }> = ({ color }) => (
+  <svg width={56} height={56} viewBox="0 0 24 24" fill="none">
+    <path
+      d="M6.5 3h3l1.5 4-2 1.5a12 12 0 0 0 6.5 6.5l1.5-2 4 1.5v3a2 2 0 0 1-2 2A16 16 0 0 1 4.5 5a2 2 0 0 1 2-2Z"
+      stroke={color}
+      strokeWidth={2}
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+const IconCalendar: React.FC<{ color: string }> = ({ color }) => (
+  <svg width={56} height={56} viewBox="0 0 24 24" fill="none">
+    <rect x={3} y={5} width={18} height={16} rx={2} stroke={color} strokeWidth={2} />
+    <path d="M3 9.5h18" stroke={color} strokeWidth={2} />
+    <path d="M8 3v3.5M16 3v3.5" stroke={color} strokeWidth={2} strokeLinecap="round" />
+    <path d="M8 14l2.2 2.2L15 12" stroke={color} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const IconHandshake: React.FC<{ color: string }> = ({ color }) => (
+  <svg width={56} height={56} viewBox="0 0 24 24" fill="none">
+    <path
+      d="M2 10.5 6 7l4 2.5-2.3 2.3a1.4 1.4 0 0 0 2 2L13 10l3.3 3.3a1.4 1.4 0 0 0 2-2L15 8l3-2 4 3.5"
+      stroke={color}
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path d="M6 7 2 10.5v4L6 18M18 6l4 3.5v4L18 18" stroke={color} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
 const STATIONS = [
-  { label: "CONSEILLER CLIENT", icon: "🎧", x: 150, at: 30, big: false },
-  { label: "TÉLÉVENDEUR", icon: "📞", x: 780, at: 80, big: false },
-  { label: "SETTER", icon: "🗓", x: 1410, at: 130, big: false },
-  { label: "CLOSER HIGH TICKET", icon: "🤝", x: 2060, at: 180, big: true },
+  { label: "CONSEILLER CLIENT", Icon: IconHeadset, x: 150, at: 120, big: false },
+  { label: "TÉLÉVENDEUR", Icon: IconPhone, x: 780, at: 150, big: false },
+  { label: "SETTER", Icon: IconCalendar, x: 1410, at: 180, big: false },
+  { label: "CLOSER HIGH TICKET", Icon: IconHandshake, x: 2060, at: 210, big: true },
 ];
 
 const CANVAS_WIDTH = 2500;
@@ -18,10 +70,10 @@ const LINE_Y = 960;
 const Station: React.FC<{
   x: number;
   label: string;
-  icon: string;
+  Icon: React.FC<{ color: string }>;
   at: number;
   big: boolean;
-}> = ({ x, label, icon, at, big }) => {
+}> = ({ x, label, Icon, at, big }) => {
   const frame = useCurrentFrame();
   const lit = frame >= at;
   const w = big ? 340 : 300;
@@ -50,7 +102,9 @@ const Station: React.FC<{
           boxShadow: "0 20px 40px rgba(0,0,0,0.25)",
         }}
       >
-        <div style={{ fontSize: 56, marginBottom: 12 }}>{icon}</div>
+        <div style={{ display: "flex", justifyContent: "center", marginBottom: 12 }}>
+          <Icon color={lit ? "#FFFFFF" : "#101318"} />
+        </div>
         <div
           style={{
             fontFamily,
@@ -72,14 +126,14 @@ export const Bloc3Metiers: React.FC = () => {
   const frame = useCurrentFrame();
 
   // Camera pan follows the arrow tip across the canvas.
-  const panProgress = interpolate(frame, [25, 210], [0, 1], {
+  const panProgress = interpolate(frame, [55, 230], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
     easing: EASE_IN_OUT,
   });
   const camX = interpolate(panProgress, [0, 1], [0, CANVAS_WIDTH - VIEWPORT]);
 
-  const lineDraw = interpolate(frame, [25, 220], [0, 1], {
+  const lineDraw = interpolate(frame, [55, 235], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
     easing: LINEAR,
@@ -89,8 +143,9 @@ export const Bloc3Metiers: React.FC = () => {
     <AbsoluteFill>
       <ColorBg univers="sombre" />
 
+      {/* Voice: "Et pas un seul métier : 4." = 600-660 (local 60-120) */}
       <div style={{ position: "absolute", top: 545 - 540, left: 72, right: 72 }}>
-        <MaskSlideText appearFrame={5} fontSize={96} color="#FFFFFF">
+        <MaskSlideText appearFrame={60} fontSize={96} color="#FFFFFF">
           PAS UN MÉTIER. QUATRE.
         </MaskSlideText>
       </div>
@@ -124,12 +179,6 @@ export const Bloc3Metiers: React.FC = () => {
         {STATIONS.map((s) => (
           <Station key={s.label} {...s} />
         ))}
-      </div>
-
-      <div style={{ position: "absolute", top: 730 - 540, left: 72, right: 72 }}>
-        <MaskSlideText appearFrame={190} fontSize={84} color="#FFFFFF">
-          TU ENTRES. TU MONTES.
-        </MaskSlideText>
       </div>
 
       <Sfx type="whoosh" at={0} />

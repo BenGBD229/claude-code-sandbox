@@ -36,23 +36,23 @@ export const Bloc8Honnetete: React.FC = () => {
 
   return (
     <AbsoluteFill style={{ backgroundColor: "#001F3F" }}>
-      <CrossfadeImage src={staticFile("assets/images/g07_simulation_groupe.jpg")} from={0} to={150} />
-      <CrossfadeImage src={staticFile("assets/images/g08_entrainement_concentree.jpg")} from={150} to={225} />
-      <CrossfadeImage src={staticFile("assets/images/g09_femme_confiante_soir.jpg")} from={225} to={300} />
+      <CrossfadeImage src={staticFile("assets/images/g07_simulation_groupe.jpg")} from={0} to={140} />
+      <CrossfadeImage src={staticFile("assets/images/g08_entrainement_concentree.jpg")} from={140} to={215} />
+      <CrossfadeImage src={staticFile("assets/images/g09_femme_confiante_soir.jpg")} from={215} to={300} />
 
-      {frame < 225 ? (
+      {/* Voice: "on va être clair" already plays out in bloc 7; this bloc
+          opens right on "c'est 2 mois de vrai travail" (1680-1710, local
+          0-30), then "d'entraînement... professionnels reconnus" runs
+          through local 150. */}
+      {frame < 150 ? (
         <div style={{ position: "absolute", top: 680, left: 72, right: 72 }}>
-          <MaskSlideText appearFrame={20} fontSize={64} color="#8A8F98">
-            SOYONS CLAIRS.
-          </MaskSlideText>
-          <div style={{ height: 24 }} />
-          <MaskSlideText appearFrame={80} fontSize={54} color="#FFFFFF">
-            <Cartouche univers="sombre" appearFrame={80} fontSize={54}>
+          <MaskSlideText appearFrame={0} fontSize={54} color="#FFFFFF">
+            <Cartouche univers="sombre" appearFrame={0} fontSize={54}>
               DEUX MOIS DE VRAI TRAVAIL.
             </Cartouche>
           </MaskSlideText>
           <div style={{ height: 24 }} />
-          <MaskSlideText appearFrame={140} fontSize={66} color="#FFFFFF">
+          <MaskSlideText appearFrame={30} fontSize={66} color="#FFFFFF">
             ENTRAÎNEMENT. SIMULATIONS.
             <br />
             PROFESSIONNELS RECONNUS.
@@ -60,9 +60,11 @@ export const Bloc8Honnetete: React.FC = () => {
         </div>
       ) : null}
 
-      {frame >= 225 ? (
+      {/* Voice: "même si tu penses aujourd'hui que tu sais pas vendre." =
+          1830-1890 (local 150-210). */}
+      {frame >= 150 ? (
         <div style={{ position: "absolute", top: 850, left: 72, right: 72 }}>
-          <MaskSlideText appearFrame={225} fontSize={78} color="#FFFFFF">
+          <MaskSlideText appearFrame={150} fontSize={78} color="#FFFFFF">
             MÊME SI TU PENSES QUE
             <br />
             TU SAIS PAS VENDRE.

@@ -11,7 +11,7 @@ const ADS = [
   "assets/ads/g14_annonce_03.jpeg",
 ];
 
-const ARRIVALS = [20, 55, 90, 125, 160, 195];
+const ARRIVALS = [2, 38, 74, 110, 146, 182];
 const ITEM_HEIGHT = 300;
 const LANDING_Y = 640;
 const SPRING_FRAMES = DUR.base;
@@ -150,10 +150,12 @@ export const Bloc6Reseau: React.FC = () => {
         </MaskSlideText>
       </div>
 
-      <CountryChip label="FR" at={140} top={330} left={40} />
-      <CountryChip label="BE" at={165} top={330} right={40} />
-      <CountryChip label="CA" at={190} top={1560} left={40} />
-      <CountryChip label="AFRIQUE" at={215} top={1560} right={40} />
+      {/* Voice: "...en France, en Belgique, au Canada et en Afrique." =
+          roughly 1290-1380 (local 90-180). */}
+      <CountryChip label="FR" at={90} top={330} left={40} />
+      <CountryChip label="BE" at={120} top={330} right={40} />
+      <CountryChip label="CA" at={145} top={1560} left={40} />
+      <CountryChip label="AFRIQUE" at={165} top={1560} right={40} />
 
       <div
         style={{
@@ -165,6 +167,43 @@ export const Bloc6Reseau: React.FC = () => {
       >
         <FloatingPhone width={810}>
           <div style={{ width: "100%", height: "100%", backgroundColor: "#171B21", position: "relative", overflow: "hidden" }}>
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                height: 90,
+                backgroundColor: "#0E1216",
+                display: "flex",
+                alignItems: "center",
+                paddingLeft: 28,
+                gap: 14,
+                zIndex: 1,
+                borderBottom: "1px solid rgba(255,255,255,0.06)",
+              }}
+            >
+              <div
+                style={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: "50%",
+                  backgroundColor: "#C5A059",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontFamily,
+                  fontWeight: 900,
+                  color: "#1A1A1A",
+                  fontSize: 20,
+                }}
+              >
+                G
+              </div>
+              <span style={{ fontFamily, fontWeight: 900, fontSize: 24, color: "#fff" }}>
+                GROUPE PRIVÉ
+              </span>
+            </div>
             {[0, 1, 2, 3, 4, 5].map((i) => (
               <FeedItem key={i} index={i} />
             ))}

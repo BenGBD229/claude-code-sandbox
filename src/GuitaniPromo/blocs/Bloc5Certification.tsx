@@ -36,8 +36,10 @@ export const Bloc5Certification: React.FC = () => {
       <ColorBg univers="clair" />
 
       <div style={{ position: "absolute", top: 20, left: 72, right: 72 }}>
-        <MaskSlideText appearFrame={20} fontSize={96} color="#1A1A1A">
-          TU RESSORS CERTIFIÉE.
+        {/* Voice: "Tu ressors avec une certification professionnelle," =
+            1020-1080 (local 30-90). */}
+        <MaskSlideText appearFrame={30} fontSize={96} color="#1A1A1A">
+          TU RESSORS CERTIFIÉ(E).
         </MaskSlideText>
       </div>
 
@@ -127,7 +129,9 @@ export const Bloc5Certification: React.FC = () => {
       </div>
 
       <div style={{ position: "absolute", top: 1750, left: 72, right: 72 }}>
-        <MaskSlideText appearFrame={150} fontSize={78} color="#1A1A1A">
+        {/* Voice: "la preuve concrète que tu sais faire, à mettre sur ton
+            CV." = 1080-1140 (local 90-150) — visible during the landing. */}
+        <MaskSlideText appearFrame={90} fontSize={78} color="#1A1A1A">
           LA PREUVE CONCRÈTE, SUR TON CV.
         </MaskSlideText>
       </div>

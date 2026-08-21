@@ -26,8 +26,51 @@ const MessagingScreen: React.FC = () => {
     easing: EASE_IN_OUT,
   });
 
+  const header = (
+    <div
+      style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        height: 64,
+        backgroundColor: "#0E1216",
+        display: "flex",
+        alignItems: "center",
+        paddingLeft: 20,
+        gap: 10,
+        borderBottom: "1px solid rgba(255,255,255,0.06)",
+      }}
+    >
+      <div
+        style={{
+          width: 30,
+          height: 30,
+          borderRadius: "50%",
+          backgroundColor: "#C5A059",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontFamily,
+          fontWeight: 900,
+          color: "#1A1A1A",
+          fontSize: 15,
+        }}
+      >
+        G
+      </div>
+      <span style={{ fontFamily, fontWeight: 900, fontSize: 16, color: "#fff" }}>
+        Guitani Corporate
+      </span>
+    </div>
+  );
+
   if (frame < TYPE_START) {
-    return <div style={{ width: "100%", height: "100%", backgroundColor: "#171B21" }} />;
+    return (
+      <div style={{ width: "100%", height: "100%", backgroundColor: "#171B21", position: "relative" }}>
+        {header}
+      </div>
+    );
   }
 
   return (
@@ -36,6 +79,7 @@ const MessagingScreen: React.FC = () => {
         width: "100%",
         height: "100%",
         backgroundColor: "#171B21",
+        position: "relative",
         display: "flex",
         flexDirection: "column",
         justifyContent: "flex-end",
@@ -43,6 +87,7 @@ const MessagingScreen: React.FC = () => {
         boxSizing: "border-box",
       }}
     >
+      {header}
       <div
         style={{
           alignSelf: "flex-end",
@@ -99,8 +144,8 @@ export const Bloc9Cta: React.FC = () => {
           <ColorBg univers="accent" />
           {phase === "punch1" ? (
             <div style={{ position: "absolute", top: 850, left: 72, right: 72 }}>
-              <MaskSlideText appearFrame={4} fontSize={38} color="#1A1A1A">
-                <Cartouche univers="accent" appearFrame={10} fontSize={38}>
+              <MaskSlideText appearFrame={0} fontSize={38} color="#1A1A1A">
+                <Cartouche univers="accent" appearFrame={2} fontSize={38}>
                   LE PREMIER PAS, C&apos;EST PAS UN PAIEMENT.
                 </Cartouche>
               </MaskSlideText>
@@ -141,13 +186,19 @@ export const Bloc9Cta: React.FC = () => {
             <div style={{ height: 24 }} />
             <MaskSlideText appearFrame={20} fontSize={30} color="#FFFFFF">
               <Cartouche univers="sombre" appearFrame={20} fontSize={30}>
-                POUR NOUS CONTACTER — SANS ENGAGEMENT
+                POUR NOUS CONTACTER
+              </Cartouche>
+            </MaskSlideText>
+            <div style={{ height: 10 }} />
+            <MaskSlideText appearFrame={28} fontSize={30} color="#FFFFFF">
+              <Cartouche univers="sombre" appearFrame={28} fontSize={30}>
+                — SANS ENGAGEMENT
               </Cartouche>
             </MaskSlideText>
           </div>
 
           <div style={{ position: "absolute", bottom: 260, right: -20 }}>
-            <FloatingPhone width={420} enterFrame={10}>
+            <FloatingPhone width={420} enterFrame={180}>
               <MessagingScreen />
             </FloatingPhone>
           </div>

@@ -7,18 +7,73 @@ import { FloatingPhone } from "../components/FloatingPhone";
 import { Sfx } from "../components/Sfx";
 import { DUR, EASE_OUT_EXPO } from "../tokens";
 
-const CHIPS = ["FRANCE", "SUISSE", "BELGIQUE", "CANADA"];
+// Voice says "en France, en Suisse, au Canada" (90-180f) — Belgique isn't
+// named until bloc 6, so it doesn't belong in this chip cycle.
+const CHIPS = ["FRANCE", "SUISSE", "CANADA"];
+// Onset of each country name within the 90-180f voice window.
+const CHIP_TIMES = [90, 120, 150];
+
+const PhoneScreenBg: React.FC = () => {
+  const frame = useCurrentFrame();
+  const pulse = (frame % 90) / 90;
+  return (
+    <AbsoluteFill style={{ backgroundColor: "#0A1420" }}>
+      <AbsoluteFill
+        style={{
+          background:
+            "radial-gradient(circle at 50% 46%, rgba(197,160,89,0.35) 0%, transparent 60%)",
+        }}
+      />
+      {[0, 1, 2].map((i) => {
+        const p = (pulse + i / 3) % 1;
+        const scale = 0.3 + p * 1.1;
+        const opacity = (1 - p) * 0.35;
+        return (
+          <div
+            key={i}
+            style={{
+              position: "absolute",
+              top: "46%",
+              left: "50%",
+              width: 160,
+              height: 160,
+              borderRadius: "50%",
+              border: "2px solid #C5A059",
+              translate: "-50% -50%",
+              scale: `${scale}`,
+              opacity,
+            }}
+          />
+        );
+      })}
+      <div
+        style={{
+          position: "absolute",
+          top: "46%",
+          left: "50%",
+          width: 14,
+          height: 14,
+          borderRadius: "50%",
+          backgroundColor: "#C5A059",
+          translate: "-50% -50%",
+        }}
+      />
+    </AbsoluteFill>
+  );
+};
 
 const CountryChips: React.FC = () => {
   const frame = useCurrentFrame();
-  // one chip every 30 local frames, starting at 70 (relative to bloc start)
-  const chipStart = 70;
-  const chipEvery = 30;
-  const activeIndex = Math.min(
-    CHIPS.length - 1,
-    Math.max(0, Math.floor((frame - chipStart) / chipEvery)),
-  );
-  const localInChip = (frame - chipStart) % chipEvery;
+  const chipStart = CHIP_TIMES[0];
+  let activeIndex = -1;
+  for (let i = CHIP_TIMES.length - 1; i >= 0; i--) {
+    if (frame >= CHIP_TIMES[i]) {
+      activeIndex = i;
+      break;
+    }
+  }
+  if (activeIndex < 0) return null;
+  const localInChip = frame - CHIP_TIMES[activeIndex];
   const scale = interpolate(localInChip, [0, DUR.instant], [0.7, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
@@ -76,13 +131,13 @@ export const Bloc1Hook: React.FC = () => {
             voile="bottom"
           />
           <div style={{ position: "absolute", top: 600, left: 72, right: 72 }}>
-            <MaskSlideText appearFrame={40} fontSize={100} color="#FFFFFF">
+            <MaskSlideText appearFrame={32} fontSize={100} color="#FFFFFF">
               TRAVAILLER
               <br />
               DEPUIS CHEZ TOI
             </MaskSlideText>
             <div style={{ height: 24 }} />
-            <MaskSlideText appearFrame={110} fontSize={66} color="#FFFFFF">
+            <MaskSlideText appearFrame={92} fontSize={66} color="#FFFFFF">
               POUR DES ENTREPRISES
               <br />À L&apos;INTERNATIONAL
             </MaskSlideText>
@@ -92,7 +147,7 @@ export const Bloc1Hook: React.FC = () => {
             <>
               <div style={{ position: "absolute", bottom: -60, right: -40 }}>
                 <FloatingPhone width={480} enterFrame={60}>
-                  <AbsoluteFill style={{ backgroundColor: "#050607" }} />
+                  <PhoneScreenBg />
                   <CountryChips />
                 </FloatingPhone>
               </div>

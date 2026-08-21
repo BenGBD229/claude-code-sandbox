@@ -2,20 +2,19 @@ import { AbsoluteFill, Img, interpolate, staticFile, useCurrentFrame } from "rem
 import { ColorBg } from "../components/ColorBg";
 import { MaskSlideText } from "../components/MaskSlideText";
 import { Cartouche } from "../components/Cartouche";
-import { FloatingPhone } from "../components/FloatingPhone";
 import { Sfx } from "../components/Sfx";
 import { DUR, EASE_IN_SHARP, EASE_OUT_EXPO, fontFamily } from "../tokens";
 
 export const Bloc2Annonce: React.FC = () => {
   const frame = useCurrentFrame();
 
-  const shimmerX = interpolate(frame, [20, 90], [-30, 130], {
+  const shimmerX = interpolate(frame, [55, 125], [-30, 130], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
     easing: EASE_OUT_EXPO,
   });
 
-  const logoOpacity = interpolate(frame, [90, 90 + DUR.base], [0, 1], {
+  const logoOpacity = interpolate(frame, [125, 125 + DUR.base], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
@@ -34,22 +33,14 @@ export const Bloc2Annonce: React.FC = () => {
     <AbsoluteFill>
       <ColorBg univers="clair" />
 
-      {frame < 20 ? (
-        <div style={{ position: "absolute", bottom: -420, right: -60 }}>
-          <FloatingPhone width={480}>
-            <div style={{ width: "100%", height: "100%", backgroundColor: "#0B0D10" }} />
-          </FloatingPhone>
-        </div>
-      ) : null}
-
       <div style={{ position: "absolute", top: 560, left: 72, right: 72 }}>
         <div style={{ position: "relative", overflow: "hidden" }}>
-          <MaskSlideText appearFrame={20} fontSize={92} color="#1A1A1A" duration={DUR.slow}>
+          <MaskSlideText appearFrame={55} fontSize={92} color="#1A1A1A" duration={DUR.slow}>
             TÉLÉOPÉRATEUR
             <br />
             PRO
           </MaskSlideText>
-          {frame >= 20 && frame <= 95 ? (
+          {frame >= 55 && frame <= 130 ? (
             <div
               style={{
                 position: "absolute",
@@ -74,17 +65,20 @@ export const Bloc2Annonce: React.FC = () => {
       </div>
 
       <div style={{ position: "absolute", top: 1080, left: 72, right: 72 }}>
-        <MaskSlideText appearFrame={160} fontSize={96} color="#1A1A1A">
-          <Cartouche univers="clair" appearFrame={160} fontSize={96}>
+        {/* Voice: "En 2 mois, une vraie compétence, recherchée," = 390-480 (local 120-210) */}
+        <MaskSlideText appearFrame={120} fontSize={96} color="#1A1A1A">
+          <Cartouche univers="clair" appearFrame={120} fontSize={96}>
             2 MOIS.
           </Cartouche>
         </MaskSlideText>
         <div style={{ height: 20 }} />
-        <MaskSlideText appearFrame={180} fontSize={84} color="#1A1A1A">
+        <MaskSlideText appearFrame={150} fontSize={84} color="#1A1A1A">
           UNE VRAIE COMPÉTENCE.
         </MaskSlideText>
         <div style={{ height: 14 }} />
-        <MaskSlideText appearFrame={200} fontSize={78} color="#1A1A1A">
+        {/* Voice for this exact line (540-600) only starts as bloc 2 cuts to
+            bloc 3 at 540 — pushed as late as the fixed cut allows. */}
+        <MaskSlideText appearFrame={250} fontSize={78} color="#1A1A1A">
           LA RELATION HUMAINE
           <br />
           AU TÉLÉPHONE.

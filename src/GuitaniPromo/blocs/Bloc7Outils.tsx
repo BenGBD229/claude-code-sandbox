@@ -7,17 +7,21 @@ import { EASE_IN_OUT, EASE_OUT_EXPO, fontFamily } from "../tokens";
 
 const WIPE_FRAME = 120;
 
+// Voice: "avec des scripts prêts à l'emploi" is said just before this bloc
+// starts, "un mémo objections" = 1440-1500 (local 0-60), "et un coaching qui
+// t'accompagne jusqu'à ton premier contrat" = 1500-1560 (local 60-120).
 const TOOLS = [
-  { label: "SCRIPTS PRÊTS À L'EMPLOI", icon: "📋", at: 10, top: 640 },
-  { label: "MÉMO OBJECTIONS", icon: "🧠", at: 70, top: 900 },
-  { label: "COACHING PERSONNALISÉ", icon: "🎯", at: 130, top: 1160 },
+  { label: "SCRIPTS PRÊTS À L'EMPLOI", icon: "📋", at: 0, top: 640 },
+  { label: "MÉMO OBJECTIONS", icon: "🧠", at: 20, top: 900 },
+  { label: "COACHING PERSONNALISÉ", icon: "🎯", at: 65, top: 1160 },
 ];
 
-const Card: React.FC<{ label: string; icon: string; at: number; top: number }> = ({
+const Card: React.FC<{ label: string; icon: string; at: number; top: number; index: number }> = ({
   label,
   icon,
   at,
   top,
+  index,
 }) => {
   const frame = useCurrentFrame();
   const enter = interpolate(frame, [at, at + 16], [0, 1], {
@@ -32,9 +36,10 @@ const Card: React.FC<{ label: string; icon: string; at: number; top: number }> =
     extrapolateRight: "clamp",
     easing: EASE_IN_OUT,
   });
-  const scale = interpolate(reduced, [0, 1], [1, 0.92]);
-  const opacity = interpolate(reduced, [0, 1], [1, 0.6]) * enter;
-  const reducedTop = interpolate(reduced, [0, 1], [top, 60 + (top - 640) * 0.18]);
+  const scale = interpolate(reduced, [0, 1], [1, 0.32]);
+  const opacity = interpolate(reduced, [0, 1], [1, 0.7]) * enter;
+  // Reduced cards stack in a tight, non-overlapping band at the top.
+  const reducedTop = interpolate(reduced, [0, 1], [top, 40 + index * 78]);
 
   return (
     <div
@@ -84,10 +89,6 @@ export const Bloc7Outils: React.FC = () => {
     <AbsoluteFill>
       <ColorBg univers="clair" />
 
-      {TOOLS.map((t) => (
-        <Card key={t.label} {...t} />
-      ))}
-
       {frame >= WIPE_FRAME - 5 ? (
         <div
           style={{
@@ -104,8 +105,16 @@ export const Bloc7Outils: React.FC = () => {
         </div>
       ) : null}
 
+      {/* Cards render after (on top of) the wiped-in video so they stay
+          visible in surimpression once the wipe completes. */}
+      {TOOLS.map((t, i) => (
+        <Card key={t.label} {...t} index={i} />
+      ))}
+
       <div style={{ position: "absolute", top: 1600, left: 72, right: 72 }}>
-        <MaskSlideText appearFrame={180} fontSize={78} color="#FFFFFF">
+        {/* Voice: "Tu n'es jamais lâché dans la nature." = 1560-1620
+            (local 120-180). */}
+        <MaskSlideText appearFrame={125} fontSize={78} color="#FFFFFF">
           TU N&apos;ES JAMAIS LÂCHÉE DANS LA NATURE.
         </MaskSlideText>
       </div>

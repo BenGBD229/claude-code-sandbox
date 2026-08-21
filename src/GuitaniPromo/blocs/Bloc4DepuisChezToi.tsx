@@ -55,17 +55,29 @@ export const Bloc4DepuisChezToi: React.FC = () => {
             voileOpacity={0.35}
           />
           <div style={{ position: "absolute", top: 700, left: 72, right: 72 }}>
-            <MaskSlideText appearFrame={10} fontSize={80} color="#FFFFFF">
-              DEPUIS CHEZ TOI.
-            </MaskSlideText>
-            <div style={{ height: 16 }} />
-            <MaskSlideText appearFrame={26} fontSize={80} color="#FFFFFF">
-              À TON RYTHME.
-            </MaskSlideText>
-            <div style={{ height: 16 }} />
-            <MaskSlideText appearFrame={42} fontSize={80} color="#FFFFFF">
-              EN VISIO.
-            </MaskSlideText>
+            {frame < 90 ? (
+              // Voice: "Tu entres par celui qui recrute le plus vite et tu
+              // montes." = 780-870 (local 0-90).
+              <MaskSlideText appearFrame={0} fontSize={80} color="#FFFFFF">
+                TU ENTRES. TU MONTES.
+              </MaskSlideText>
+            ) : (
+              // Voice: "Tout ça depuis chez toi, à ton rythme, en visio." =
+              // 870-930 (local 90-150, running past the accent cut at 120).
+              <>
+                <MaskSlideText appearFrame={90} fontSize={80} color="#FFFFFF">
+                  DEPUIS CHEZ TOI.
+                </MaskSlideText>
+                <div style={{ height: 16 }} />
+                <MaskSlideText appearFrame={96} fontSize={80} color="#FFFFFF">
+                  À TON RYTHME.
+                </MaskSlideText>
+                <div style={{ height: 16 }} />
+                <MaskSlideText appearFrame={102} fontSize={80} color="#FFFFFF">
+                  EN VISIO.
+                </MaskSlideText>
+              </>
+            )}
           </div>
         </>
       ) : (
@@ -84,18 +96,20 @@ export const Bloc4DepuisChezToi: React.FC = () => {
                 flexWrap: "wrap",
               }}
             >
-              <Cross appearFrame={0} /> DÉPLACEMENTS
-              <Cross appearFrame={12} /> TRANSPORT
+              {/* Voice: "Pas de déplacement, pas de transport, juste ta voix
+                  et une méthode." = 930-1020 (local 150-240). */}
+              <Cross appearFrame={150} /> DÉPLACEMENTS
+              <Cross appearFrame={162} /> TRANSPORT
             </div>
             <div style={{ height: 30 }} />
-            <MaskSlideText appearFrame={26} fontSize={46} color="#1A1A1A">
-              <Cartouche univers="accent" appearFrame={26} fontSize={46}>
+            <MaskSlideText appearFrame={172} fontSize={46} color="#1A1A1A">
+              <Cartouche univers="accent" appearFrame={172} fontSize={46}>
                 TA VOIX + UNE MÉTHODE.
               </Cartouche>
             </MaskSlideText>
           </div>
           <div style={{ position: "absolute", bottom: -80, right: -40 }}>
-            <FloatingPhone width={440} enterFrame={20}>
+            <FloatingPhone width={440} enterFrame={120}>
               <Img
                 src={staticFile("assets/images/g04_femme_visio_cours.jpg")}
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
